@@ -1,0 +1,1177 @@
+import React, { useEffect, useState } from 'react';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Menu,
+  X,
+  ChevronLeft,
+  ChevronRight,
+  Heart,
+  Users,
+  GraduationCap,
+  Lightbulb,
+  Wallet,
+  MonitorPlay,
+  Target,
+  Compass,
+  MapPin,
+  Mail,
+  CheckCircle2,
+  ExternalLink,
+  HandHeart,
+  Sparkles,
+} from 'lucide-react';
+
+const base = '#';
+const logo =
+  'https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/SACE-Aspire-logo.png';
+const donate =
+  'https://www.zeffy.com/en-CA/donation-form/empower-communities-transform-live';
+const volunteer =
+  'https://docs.google.com/forms/d/e/1FAIpQLSeV46guwlS2Q8jFotjIoz3Vp5iJTcpix453seEfMubw9QPXLw/viewform?pli=1';
+const nav = [
+  { title: 'Who We Are', slug: 'about' },
+  { title: 'Vision', slug: 'vision' },
+  { title: 'Programs', slug: 'programs' },
+  { title: 'Support', slug: 'support' },
+  { title: 'Partners', slug: 'partners' },
+  { title: 'Events', slug: 'events' },
+  { title: 'Get Involved', slug: 'contact' },
+];
+const programs = [
+  {
+    slug: 'secure-the-bag',
+    title: 'Secure the Bag',
+    eyebrow: 'FINANCIAL LITERACY',
+    image:
+      'https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1100&q=85',
+    intro:
+      'Providing essential financial literacy, economic empowerment tools, and funding pathways to secure sustainable futures for youth and families.',
+    tagline: 'Building financial confidence for a stronger tomorrow.',
+    pillars: [
+      'Financial literacy and practical money skills',
+      'Entrepreneurship and economic empowerment',
+      'Pathways to financial independence',
+    ],
+    body: 'Secure the Bag is designed to help youth and families gain practical knowledge, confidence, and the tools to make informed financial decisions. By connecting learning with opportunities for personal and economic growth, the programme supports long-term resilience.',
+    cta: 'Apply to Secure the Bag',
+    url: 'https://bit.ly/STBApplicationForm2026',
+  },
+  {
+    slug: 'indigenous-microbursary',
+    title: 'Indigenous Microbursary',
+    eyebrow: 'EDUCATION SUPPORT',
+    image:
+      'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1100&q=85',
+    intro:
+      'Direct educational financial grants and micro-support designed to alleviate academic expenses and elevate Indigenous students nationwide.',
+    tagline: 'Making space for Indigenous learners to thrive.',
+    pillars: [
+      'Support for education-related expenses',
+      'Reducing financial barriers to learning',
+      'Honouring Indigenous leadership and student success',
+    ],
+    body: 'Education can open doors, but everyday costs can create real barriers. The Indigenous Microbursary programme centres accessible educational support for Indigenous students and the opportunities they deserve to pursue their goals.',
+    cta: 'Apply for the Microbursary',
+    url: 'https://bit.ly/BFMicrobursary',
+    secondCTA: 'Join the Indigenous Advisory Committee',
+    secondURL: 'https://bit.ly/IndigenousAdvisoryCommitteeMemberForm',
+  },
+  {
+    slug: 'indigenous-pitch-competition',
+    title: 'Indigenous Pitch Competition',
+    eyebrow: 'ENTREPRENEURSHIP',
+    image:
+      'https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1100&q=85',
+    intro:
+      'A flagship platform showcasing and funding innovative business ventures led by Indigenous creators, entrepreneurs, and visionaries.',
+    tagline: 'Amplifying bold ideas. Celebrating Indigenous innovation.',
+    pillars: [
+      'A platform to present entrepreneurial ideas',
+      'Visibility for Indigenous-led ventures',
+      'Connections to growth and funding pathways',
+    ],
+    body: 'The Indigenous Pitch Competition provides a platform where Indigenous innovators can share their ideas, strengthen their entrepreneurial voice, and pursue opportunities to bring their ventures forward. It recognises the creativity, leadership, and impact of Indigenous entrepreneurship.',
+    cta: 'Apply to the Pitch Competition',
+    url: 'https://bit.ly/IPCpitchcompetition',
+  },
+  {
+    slug: 'digital-media-scholarship',
+    title: 'Digital Media & Scholarships',
+    eyebrow: 'DIGITAL SKILLS',
+    image:
+      'https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1100&q=85',
+    intro:
+      'Empowering creative digital skills training alongside academic scholarship packages to foster next-gen media creators and tech leaders.',
+    tagline: 'Giving creative talent the tools to go further.',
+    pillars: [
+      'Creative digital skills and media literacy',
+      'Opportunities to explore technology careers',
+      'Education and scholarship pathways',
+    ],
+    body: 'Digital media skills are increasingly important across creative industries and the broader economy. This programme connects skills development with education-focused support so emerging creators and future technology leaders can explore their potential.',
+    cta: 'Enquire About This Programme',
+    url: '#/contact',
+  },
+];
+const slides = [
+  {
+    badge: 'COMMUNITY EMPOWERMENT',
+    title: 'Building Stronger Communities Across Canada',
+    description:
+      'We empower individuals and local groups through grants, advocacy, and sustainable community initiatives that deliver lasting social impact nationwide.',
+    image:
+      'https://saceaspirefoundation.org/wp-content/uploads/2026/02/can1.jpg',
+    primary: 'Get Involved',
+    to: 'contact',
+    secondary: 'Our Programs',
+    to2: 'programs',
+  },
+  {
+    badge: 'LEADERSHIP & INNOVATION',
+    title: 'Empowering People. Inspiring Lasting Change.',
+    description:
+      'Through youth leadership training, dedicated research, and grassroots action, we unlock full potential and power transformation where it matters most.',
+    image:
+      'https://saceaspirefoundation.org/wp-content/uploads/2026/02/can3.webp',
+    primary: 'Explore Initiatives',
+    to: 'programs',
+    secondary: 'Contact Us',
+    to2: 'contact',
+  },
+  {
+    badge: 'STRATEGIC PARTNERSHIPS',
+    title: 'Together, We Create a Sustainable Future',
+    description:
+      'Partner with us, volunteer your expertise, or support our mission to uplift underserved communities and build an inclusive tomorrow for all.',
+    image:
+      'https://saceaspirefoundation.org/wp-content/uploads/2026/02/can2-1.jpg',
+    primary: 'Partner With Us',
+    to: 'partners',
+    secondary: 'Make a Donation',
+    to2: 'support',
+  },
+];
+const href = (slug: string) => base + '/' + slug;
+const A = ({
+  to,
+  children,
+  className = '',
+  external = false,
+}: {
+  to: string;
+  children: React.ReactNode;
+  className?: string;
+  external?: boolean;
+}) => (
+  <a
+    className={className}
+    href={external ? to : href(to)}
+    target={external ? '_blank' : undefined}
+    rel={external ? 'noopener noreferrer' : undefined}
+  >
+    {children}
+  </a>
+);
+const Btn = ({
+  to,
+  children,
+  light = false,
+  external = false,
+}: {
+  to: string;
+  children: React.ReactNode;
+  light?: boolean;
+  external?: boolean;
+}) => (
+  <A
+    to={to}
+    external={external}
+    className={'button ' + (light ? 'button-light' : 'button-primary')}
+  >
+    {children}
+    <ArrowUpRight size={17} />
+  </A>
+);
+const Eyebrow = ({ children }: { children: React.ReactNode }) => (
+  <div className="eyebrow">
+    <span className="eyedot" />
+    {children}
+  </div>
+);
+function Header() {
+  const [open, setOpen] = useState(false);
+  useEffect(() => {
+    const close = () => setOpen(false);
+    window.addEventListener('hashchange', close);
+    return () => window.removeEventListener('hashchange', close);
+  }, []);
+  return (
+    <header className="site-header">
+      <div className="header-inner">
+        <A to="" className="logo-link">
+          <img src={logo} alt="SACE Aspire Foundation" />
+        </A>
+        <nav
+          className={open ? 'navigation open' : 'navigation'}
+          aria-label="Main navigation"
+        >
+          {nav.map(n => (
+            <A
+              key={n.slug}
+              to={n.slug}
+              className={location.hash === '#/' + n.slug ? 'active' : ''}
+            >
+              {n.title}
+            </A>
+          ))}
+          <div className="nav-mobile-donate">
+            <Btn to={donate} external>
+              Donate Now
+            </Btn>
+          </div>
+        </nav>
+        <A to={donate} external className="nav-donate">
+          Donate Now <Heart size={16} />
+        </A>
+        <button
+          aria-label="Toggle navigation"
+          className="hamburger"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <X /> : <Menu />}
+        </button>
+      </div>
+    </header>
+  );
+}
+function Footer() {
+  return (
+    <footer className="footer">
+      <div className="container footer-top">
+        <div className="footer-brand">
+          <img src={logo} alt="SACE Aspire Foundation" />
+          <p>
+            Empowering communities. Driving sustainable impact. Creating
+            pathways to opportunity across Canada.
+          </p>
+        </div>
+        <div>
+          <h4>Explore</h4>
+          {nav.slice(0, 4).map(n => (
+            <A key={n.slug} to={n.slug}>
+              {n.title}
+            </A>
+          ))}
+        </div>
+        <div>
+          <h4>Take Action</h4>
+          <A to="partners">Our Partners</A>
+          <A to="contact">Get Involved</A>
+          <A to={volunteer} external>
+            Volunteer
+          </A>
+          <A to={donate} external>
+            Make a Donation
+          </A>
+        </div>
+        <div>
+          <h4>Stay Connected</h4>
+          <p>
+            Be part of a future where every community has the opportunity to
+            thrive.
+          </p>
+          <Btn to="contact" light>
+            Contact Us
+          </Btn>
+        </div>
+      </div>
+      <div className="container footer-bottom">
+        <span>
+          © {new Date().getFullYear()} SACE Aspire Foundation. All rights
+          reserved.
+        </span>
+        <span>Canada · Registered charity BN: 756635629RR0001</span>
+      </div>
+    </footer>
+  );
+}
+function PageHero({
+  eyebrow,
+  title,
+  description,
+  image,
+}: {
+  eyebrow: string;
+  title: string;
+  description: string;
+  image?: string;
+}) {
+  return (
+    <section
+      className={'page-hero ' + (image ? 'with-image' : '')}
+      style={
+        image
+          ? {
+              backgroundImage:
+                'linear-gradient(90deg,rgba(4,17,29,.94),rgba(4,17,29,.48)),url(' +
+                image +
+                ')',
+            }
+          : {}
+      }
+    >
+      <div className="container">
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <h1>{title}</h1>
+        <p>{description}</p>
+        <div className="breadcrumb">
+          <A to="">Home</A>
+          <span> / </span>
+          <span>{title}</span>
+        </div>
+      </div>
+    </section>
+  );
+}
+function ProgramCards() {
+  return (
+    <div className="program-grid">
+      {programs.map(p => (
+        <article className="program-card" key={p.slug}>
+          <A to={p.slug} className="program-img">
+            <img src={p.image} alt={p.title} loading="lazy" />
+            <span>{p.eyebrow}</span>
+          </A>
+          <div className="program-card-body">
+            <h3>{p.title}</h3>
+            <p>{p.intro}</p>
+            <A to={p.slug} className="text-link">
+              Learn More <ArrowUpRight size={18} />
+            </A>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+}
+function MissionVision() {
+  return (
+    <section className="dark-section mission-vision">
+      <div className="container">
+        <div className="section-head centered light">
+          <Eyebrow>PURPOSE & DIRECTION</Eyebrow>
+          <h2>
+            Our Mission <span className="amp">&</span> Vision
+          </h2>
+          <p>
+            We are committed to strengthening rural and underserved communities
+            across Canada through inclusive systems that expand access to
+            education, social support, and opportunity.
+          </p>
+        </div>
+        <div className="vision-grid">
+          <div className="vision-card">
+            <div className="vision-icon">
+              <Target />
+            </div>
+            <span className="card-number">01 / OBJECTIVE</span>
+            <h3>Our Mission</h3>
+            <p>
+              To strengthen rural and underserved communities across Canada by
+              building inclusive systems that expand access to education and
+              social supports, especially for youth pursuing pathways in STEAM
+              and other future-focused fields.
+            </p>
+          </div>
+          <div className="vision-card green">
+            <div className="vision-icon">
+              <Compass />
+            </div>
+            <span className="card-number">02 / FUTURE</span>
+            <h3>Our Vision</h3>
+            <p>
+              A Canada where every community, regardless of geography or
+              circumstance, has equitable access to education, essential
+              support, and the opportunity to thrive.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+function ImpactPrograms() {
+  return (
+    <section className="section pale">
+      <div className="container">
+        <div className="section-head centered">
+          <Eyebrow>DIRECT ACTION</Eyebrow>
+          <h2>
+            Our Impact <em>Programs</em>
+          </h2>
+          <p>
+            We create meaningful change through targeted programs designed to
+            address the unique needs of communities and empower the next
+            generation.
+          </p>
+        </div>
+        <ProgramCards />
+        <div className="center-action">
+          <Btn to="programs">Explore All Programs</Btn>
+        </div>
+      </div>
+    </section>
+  );
+}
+function SupportStrip() {
+  return (
+    <section className="support-band">
+      <div className="container support-band-grid">
+        <div>
+          <Eyebrow>BE PART OF THE CHANGE</Eyebrow>
+          <h2>Your support can help create a brighter future.</h2>
+          <p>
+            Whether you give, volunteer, or partner, there is a place for you in
+            building stronger communities.
+          </p>
+        </div>
+        <div className="support-actions">
+          <Btn to={donate} external>
+            Make a Donation
+          </Btn>
+          <Btn to="contact" light>
+            Get Involved
+          </Btn>
+        </div>
+      </div>
+    </section>
+  );
+}
+function Home() {
+  const [i, setI] = useState(0);
+  useEffect(() => {
+    const timer = setInterval(() => setI(v => (v + 1) % slides.length), 6000);
+    return () => clearInterval(timer);
+  }, [i]);
+  useEffect(() => {
+    const key = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') setI(v => (v + 1) % 3);
+      if (e.key === 'ArrowLeft') setI(v => (v + 2) % 3);
+    };
+    window.addEventListener('keydown', key);
+    return () => window.removeEventListener('keydown', key);
+  }, []);
+  let start = 0;
+  return (
+    <>
+      <section
+        className="hero-slider"
+        onTouchStart={e => {
+          start = e.touches[0].clientX;
+        }}
+        onTouchEnd={e => {
+          const dx = e.changedTouches[0].clientX - start;
+          if (Math.abs(dx) > 50) setI(v => (v + (dx < 0 ? 1 : 2)) % 3);
+        }}
+      >
+        {slides.map((s, n) => (
+          <div
+            key={n}
+            className={'hero-slide ' + (i === n ? 'current' : '')}
+            style={{
+              backgroundImage:
+                'linear-gradient(90deg,rgba(3,15,27,.90) 0%,rgba(3,15,27,.58) 53%,rgba(3,15,27,.18) 100%),url(' +
+                s.image +
+                ')',
+            }}
+          >
+            <div className="container hero-content">
+              <Eyebrow>{s.badge}</Eyebrow>
+              <h1>{s.title}</h1>
+              <p>{s.description}</p>
+              <div className="hero-buttons">
+                <Btn to={s.to}>{s.primary}</Btn>
+                <Btn to={s.to2} light>
+                  {s.secondary}
+                </Btn>
+              </div>
+            </div>
+          </div>
+        ))}
+        <div className="container hero-controls">
+          <div className="slide-index">
+            0{i + 1}
+            <span> / 03</span>
+            <div className="progress-bars">
+              {slides.map((_, n) => (
+                <button
+                  aria-label={'Go to slide ' + (n + 1)}
+                  onClick={() => setI(n)}
+                  key={n}
+                  className={i === n ? 'on' : ''}
+                />
+              ))}
+            </div>
+          </div>
+          <div className="slider-arrows">
+            <button
+              aria-label="Previous slide"
+              onClick={() => setI((i + 2) % 3)}
+            >
+              <ChevronLeft />
+            </button>
+            <button aria-label="Next slide" onClick={() => setI((i + 1) % 3)}>
+              <ChevronRight />
+            </button>
+          </div>
+        </div>
+      </section>
+      <section className="section intro-section">
+        <div className="container split intro-grid">
+          <div>
+            <Eyebrow>THE SACE FOUNDATION</Eyebrow>
+            <h2>
+              Empowering <em>Communities.</em>
+              <br />
+              Driving Sustainable <em>Impact.</em>
+            </h2>
+            <p className="lead">
+              SACE Aspire Foundation empowers communities nationwide through
+              innovative programs, advocacy, and lasting partnerships that
+              create positive change.
+            </p>
+            <p>
+              Our work centres on access, education, youth potential, and
+              community-led opportunities that can make a lasting difference.
+            </p>
+            <div className="button-row">
+              <Btn to="about">Discover Our Mission</Btn>
+              <A to="programs" className="subtle-link">
+                Explore Programs <ArrowRight size={17} />
+              </A>
+            </div>
+          </div>
+          <div className="visual-frame">
+            <img
+              src="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1100&q=85"
+              alt="People collaborating around a table"
+            />
+            <div className="visual-note">
+              <MapPin size={23} />
+              <span>
+                <strong>Across Canada</strong>
+                <small>Community-focused impact</small>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+      <div className="trust-ticker">
+        <div className="ticker-track">
+          {[0, 1].map(n => (
+            <React.Fragment key={n}>
+              {[
+                'Registered Canadian Charity',
+                'BN: 756635629RR0001',
+                'Transparent Financial Reporting',
+                'Strong Governance',
+              ].map(t => (
+                <span key={n + t}>
+                  <i /> {t}
+                </span>
+              ))}
+            </React.Fragment>
+          ))}
+        </div>
+      </div>
+      <section className="section pale"><div className="container"><div className="section-head centered"><Eyebrow>OUR CURRENT PROGRAMS</Eyebrow><h2>Supporting community <em>potential.</em></h2></div><div className="related-grid">{[programs[1],programs[2],programs[0]].map(p=><A key={p.slug} to={p.slug} className="related-card"><img src={p.image} alt={p.title}/><div><small>{p.eyebrow}</small><h3>{p.title}</h3><ArrowUpRight size={19}/></div></A>)}</div></div></section><section className="section event-promo"><div className="container split"><div><Eyebrow>UPCOMING · OCTOBER 23, 2026</Eyebrow><h2>Indigenous Pitch Competition & <em>Community Gathering.</em></h2><p className="lead">Hosted by BIPOC Foundation at Tecconnect in Lethbridge, this hybrid event explores economic sovereignty, collaboration and systemic change for Indigenous communities.</p><Btn to="events">Explore The Event</Btn></div><div className="visual-frame"><img src="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1000&q=85" alt="Community event and presentation"/></div></div></section><MissionVision />
+      <section className="section photo-feature">
+        <div className="container split">
+          <div className="visual-frame tall">
+            <img
+              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1100&q=85"
+              alt="Community members connecting outdoors"
+            />
+          </div>
+          <div>
+            <Eyebrow>BUILDING TOGETHER</Eyebrow>
+            <h2>
+              Meaningful change begins with <em>connection.</em>
+            </h2>
+            <p className="lead">
+              Our communities are stronger when people have the resources,
+              encouragement, and opportunities to flourish.
+            </p>
+            <p>
+              We believe in partnerships that listen, programmes that respond to
+              real needs, and action that advances a more inclusive Canada.
+            </p>
+            <Btn to="partners">Meet Our Partners</Btn>
+          </div>
+        </div>
+      </section>
+      <SupportStrip />
+    </>
+  );
+}
+function About() {
+  return (
+    <>
+      <PageHero
+        eyebrow="WHO WE ARE"
+        title="Rooted in Community. Focused on Possibility."
+        description="Discover the people-first purpose behind SACE Aspire Foundation and our commitment to inclusive opportunity across Canada."
+        image="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1800&q=85"
+      />
+      <section className="section">
+        <div className="container split">
+          <div>
+            <Eyebrow>ABOUT THE FOUNDATION</Eyebrow>
+            <h2>
+              Opportunity should have <em>no boundaries.</em>
+            </h2>
+            <p className="lead">
+              SACE Aspire Foundation works to strengthen rural and underserved
+              communities by expanding access to education, essential support,
+              and pathways to economic empowerment.
+            </p>
+            <p>
+              Through community programmes, advocacy, and partnerships, we seek
+              to address barriers that can prevent individuals and families from
+              realising their potential. Our work emphasises youth,
+              Indigenous-led innovation, future-focused learning, and stronger
+              local ecosystems.
+            </p>
+            <Btn to="programs">Our Programs</Btn>
+          </div>
+          <div className="visual-frame tall">
+            <img
+              src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1100&q=85"
+              alt="Students working together"
+            />
+          </div>
+        </div>
+      </section>
+      <section className="section pale">
+        <div className="container">
+          <div className="section-head centered">
+            <Eyebrow>WHAT GUIDES US</Eyebrow>
+            <h2>
+              Principles behind <em>our work</em>
+            </h2>
+          </div>
+          <div className="three-grid">
+            {[
+              {
+                title: 'Access & Inclusion',
+                desc: 'Creating welcoming pathways for communities that face barriers to opportunity.',
+                icon: <Users />,
+              },
+              {
+                title: 'Community-Led Growth',
+                desc: 'Supporting ideas and initiatives that reflect the needs and strengths of the people they serve.',
+                icon: <HandHeart />,
+              },
+              {
+                title: 'Sustainable Impact',
+                desc: 'Focusing on skills, confidence, and opportunities that can deliver value beyond a single moment.',
+                icon: <Sparkles />,
+              },
+            ].map(v => (
+              <div className="info-card" key={v.title}>
+                <div className="icon-round">{v.icon}</div>
+                <h3>{v.title}</h3>
+                <p>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <MissionVision />
+      <SupportStrip />
+    </>
+  );
+}
+function Vision() {
+  return (
+    <>
+      <PageHero
+        eyebrow="OUR PURPOSE"
+        title="A Vision for Stronger, More Inclusive Communities."
+        description="Education, essential support, and opportunity should be accessible regardless of geography or circumstance."
+        image="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1800&q=85"
+      />
+      <MissionVision />
+      <section className="section">
+        <div className="container">
+          <div className="section-head centered">
+            <Eyebrow>FROM PURPOSE TO ACTION</Eyebrow>
+            <h2>
+              How we move <em>forward</em>
+            </h2>
+            <p>
+              Our mission informs the areas where we focus our efforts and build
+              meaningful collaborations.
+            </p>
+          </div>
+          <div className="three-grid">
+            {[
+              {
+                title: 'Education & STEAM',
+                desc: 'Encouraging access to learning and future-focused skills.',
+              },
+              {
+                title: 'Economic Empowerment',
+                desc: 'Supporting financial confidence and entrepreneurial opportunity.',
+              },
+              {
+                title: 'Community Partnerships',
+                desc: 'Working alongside organisations and changemakers to strengthen local opportunities.',
+              },
+            ].map((v, i) => (
+              <div className="number-card" key={v.title}>
+                <span>0{i + 1}</span>
+                <h3>{v.title}</h3>
+                <p>{v.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <SupportStrip />
+    </>
+  );
+}
+function Programs() {
+  return (
+    <>
+      <PageHero
+        eyebrow="WHAT WE DO"
+        title="Programs That Open Doors."
+        description="Explore our initiatives supporting financial empowerment, Indigenous education and entrepreneurship, and next-generation digital skills."
+        image="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1800&q=85"
+      />
+      <ImpactPrograms />
+      <section className="section">
+        <div className="container split">
+          <div>
+            <Eyebrow>WHY OUR PROGRAMS MATTER</Eyebrow>
+            <h2>
+              From potential to <em>possibility.</em>
+            </h2>
+            <p className="lead">
+              We believe opportunities should be practical, inclusive, and
+              connected to real-life goals.
+            </p>
+            <p>
+              Each programme focuses on a different pathway to empowerment while
+              sharing a commitment to stronger communities and brighter futures.
+            </p>
+            <Btn to="contact">Connect With Us</Btn>
+          </div>
+          <div className="visual-frame">
+            <img
+              src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1100&q=85"
+              alt="People planning an initiative together"
+            />
+          </div>
+        </div>
+      </section>
+      <SupportStrip />
+    </>
+  );
+}
+const partnerLogoRoot = 'https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/';
+function GrantDetail(){const streams=[['Community','For grassroots organisers and community leaders undertaking cultural programming and community-impact initiatives.'],['Artists','For visual artists, musicians, performers, writers and digital creators developing and sharing creative work.'],['Students','For students in secondary, post-secondary, vocational or professional development pathways.'],['Entrepreneurs','For aspiring entrepreneurs, start-ups and business owners seeking to launch or grow.'],['Indigenous','A dedicated stream offering culturally responsive support that recognises Indigenous knowledge and practices.']];const requirements=['Identify as Black, Indigenous or a Person of Colour in Southern Alberta.','Have volunteer experience and supply a reference letter with verification contact details.','Have attended at least two BIPOC Foundation events or programmes in 2026, with proof.','Book and attend a 15-minute coffee chat with the BIPOC Grants Team.','Entrepreneurship applicants: attend a BIPOC Membership Information Session and supply evidence.'];return <><PageHero eyebrow="2026 COMMUNITY GRANTS" title="Secure the Bag" description="Supporting Black, Indigenous and People of Colour in Southern Alberta through grants for community projects, arts, education and entrepreneurship." image="https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=1800&q=85"/><section className="section"><div className="container split"><div><Eyebrow>IN PARTNERSHIP WITH BIPOC FOUNDATION</Eyebrow><h2>About the <em>initiative.</em></h2><p className="lead">Secure the BAG is a BIPOC Foundation initiative created to help remove financial barriers and foster economic growth through accessible community-focused grants.</p><p>BIPOC Foundation developed and delivered the programme in 2025. SACE Aspire joined as a partner in 2026, helping expand the programme's reach and introduce its Indigenous stream. The programme supports initiatives in arts, entrepreneurship, education and community development.</p><Btn to="https://bit.ly/STBApplicationForm2026" external>Open Application Form</Btn></div><div className="visual-frame tall"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1100&q=85" alt="Community planning session"/></div></div></section><section className="section pale"><div className="container"><div className="section-head centered"><Eyebrow>FIVE FUNDING STREAMS</Eyebrow><h2>Find your <em>pathway.</em></h2></div><div className="focus-grid">{streams.map((x,i)=><div className="number-card" key={x[0]}><span>0{i+1}</span><h3>{x[0]}</h3><p>{x[1]}</p></div>)}</div></div></section><section className="section"><div className="container"><div className="section-head"><Eyebrow>BEFORE YOU APPLY</Eyebrow><h2>Eligibility & <em>required documents.</em></h2><p>Applicants must meet the stated requirements. Incomplete applications may not be considered.</p></div><div className="two-info"><div><h3>Eligibility checklist</h3>{requirements.map(x=><p className="check-line" key={x}><CheckCircle2 size={18}/>{x}</p>)}</div><div><h3>Documents to prepare (PDF)</h3>{['Letter of project intent (maximum 500 words).','Proof of fit for your chosen stream, such as a project description or student admission letter.','Volunteer reference letter.','Proof of attendance at two eligible 2026 events.','For entrepreneurs: proof of membership information-session attendance.'].map(x=><p className="check-line" key={x}><CheckCircle2 size={18}/>{x}</p>)}<p>Indigenous stream applicants should explain how their project incorporates Indigenous knowledge or cultural practices.</p></div></div></div></section><section className="section pale"><div className="container"><div className="section-head"><Eyebrow>APPLICATION GUIDE</Eyebrow><h2>How to <em>apply.</em></h2></div><div className="four-grid">{[['01','Complete the form','Enter your contact details, confirm eligibility and select your grant stream.'],['02','Upload documents','Attach all supporting evidence and required letters in PDF format.'],['03','Submit online','Review the application and submit through the official application form.'],['04','Check your email','A confirmation email is expected after successful submission.']].map(x=><div className="number-card" key={x[0]}><span>{x[0]}</span><h3>{x[1]}</h3><p>{x[2]}</p></div>)}</div><div className="event-highlights timeline"><div><strong>Jan–Oct 2026</strong><small>Rolling applications</small></div><div><strong>November 2026</strong><small>Adjudication</small></div><div><strong>December 2026</strong><small>Announcements (per guide)</small></div></div><p className="note-text">The application guide says the announcement will coincide with a Black History Month celebration, despite listing December; this timing needs confirmation from the programme team.</p><Btn to="https://bit.ly/STBApplicationForm2026" external>Apply Now <span aria-hidden="true">↗</span></Btn><p className="note-text">Application questions: <a href="mailto:letsmakeithappen@bipocfoundation.org">letsmakeithappen@bipocfoundation.org</a></p></div></section><section className="section"><div className="container"><div className="section-head"><Eyebrow>GRANT COLLABORATORS</Eyebrow><h2>Secure the Bag <em>Partners.</em></h2></div><div className="brand-logo-grid"><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Bipoc-logo.jpg" alt="BIPOC Foundation logo"/><figcaption>BIPOC Foundation</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Arts-Marvel-logo.jpg" alt="Arts Marvels logo"/><figcaption>Arts Marvels</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/SACE-Aspire-logo.png" alt="SACE Aspire Foundation logo"/><figcaption>SACE Aspire Foundation</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/YWCA-logo.jpg" alt="YWCA Lethbridge logo"/><figcaption>YWCA Lethbridge</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/HR-Advantage-logo.jpg" alt="HR Advantage logo"/><figcaption>HR Advantage</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/International-Food-Bank-logo.jpg" alt="Interfaith Food Bank logo"/><figcaption>Interfaith Food Bank</figcaption></figure></div></div></section></>}
+function PitchDetail(){return <><PageHero eyebrow="INDIGENOUS-LED ENTREPRENEURSHIP" title="Indigenous Pitch Competition" description="Pitch your vision. Connect with mentors. Access support that can move your idea forward." image="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1800&q=85"/><section className="section"><div className="container"><div className="closed-notice"><strong>Applications Closed</strong><span>The published application deadline was September 20, 2026.</span></div><div className="split"><div><Eyebrow>BIPOC FOUNDATION · WITH SACE ASPIRE</Eyebrow><h2>Ideas deserve more than <em>applause.</em></h2><p className="lead">Part of the wider Indigenous Peoples Celebration 2026, the Pitch Gathering is designed around Indigenous leadership, community-defined priorities and practical support.</p><p>Rather than a high-pressure winner-takes-all contest, the gathering centres storytelling, mentoring, resource sharing and meaningful relationship-building. Indigenous entrepreneurs, youth leaders, creatives, storytellers, organisers, social enterprises and cultural programme leaders were invited to apply.</p><A to="events" className="button button-primary">View October 23 Event <ArrowUpRight size={18}/></A></div><div className="visual-frame tall"><img src="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1000&q=85" alt="Entrepreneurs sharing ideas"/></div></div></div></section><section className="section pale"><div className="container"><div className="section-head centered"><Eyebrow>THE EXPERIENCE</Eyebrow><h2>Present. Connect. <em>Grow.</em></h2></div><div className="three-grid">{[['01','Share your story','The programme envisages five to seven selected presenters, each offering a five-minute presentation.'],['02','Join the conversation','A five-minute community Q&A and support dialogue creates room for constructive feedback.'],['03','Build relationships','Potential support includes mentorship, seed funding, in-kind resources, introductions and pledges.']].map(x=><div className="number-card" key={x[0]}><span>{x[0]}</span><h3>{x[1]}</h3><p>{x[2]}</p></div>)}</div></div></section><section className="section"><div className="container detail-panel"><div><Eyebrow>OCTOBER 23, 2026</Eyebrow><h2>Join the Indigenous Peoples Celebration.</h2><p>Hosted by BIPOC Foundation at Tecconnect in Lethbridge, the hybrid event includes the learning panel, pitch gathering and community microbursary awards.</p></div><div className="detail-actions"><Btn to="events">Explore Event Details</Btn><A external to="https://bit.ly/IPCpitchcompetition" className="subtle-link">View original application link <ExternalLink size={15}/></A></div></div></section><section className="section flyer-section"><div className="container"><div className="section-head centered"><Eyebrow>OFFICIAL PROGRAMME MATERIALS</Eyebrow><h2>Pitch Competition <em>flyers & resources.</em></h2><p>Explore the supplied campaign materials. Select a flyer to view the original image.</p></div><div className="flyer-grid"><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-Main-Flyer-1.jpeg" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-Main-Flyer-1.jpeg" alt="IPC 2026 main flyer" loading="lazy"/><div><strong>IPC 2026 main flyer</strong><span>View full flyer <ExternalLink size={15}/></span></div></a><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-2.png" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-2.png" alt="IPC promotional flyer" loading="lazy"/><div><strong>IPC promotional flyer</strong><span>View full flyer <ExternalLink size={15}/></span></div></a></div></div></section></>}
+function MicroDetail(){return <><PageHero eyebrow="INDIGENOUS COMMUNITY INVESTMENT" title="Indigenous Community Microbursary" description="Direct support for Indigenous-led grassroots initiatives that strengthen culture, wellness, learning, leadership and community connection." image="https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=1800&q=85"/><section className="section"><div className="container split"><div><Eyebrow>IN PARTNERSHIP WITH BIPOC FOUNDATION & RINSA</Eyebrow><h2>Investing in <em>Indigenous-led ideas.</em></h2><p className="lead">The Indigenous Community Microbursary supports individuals, youth, entrepreneurs and small community groups advancing locally rooted projects.</p><p>It forms part of Indigenous Peoples Celebration 2026, a multi-month programme led by BIPOC Foundation in partnership with SACE Aspire, combining funding, a pitch gathering, community advisory guidance and ongoing learning.</p><p>Published award levels are $500, $1,000 and $1,500, depending on funding availability and selection outcomes. The programme aims to support three to five initiatives.</p><div className="closed-notice"><strong>Published application deadline: September 20, 2026</strong><span>Contact the programme team to confirm whether any future rounds are accepting applications.</span></div></div><div className="visual-frame tall"><img src="https://images.unsplash.com/photo-1509099836639-18ba1795216d?auto=format&fit=crop&w=1000&q=85" alt="Community support and education"/></div></div></section><section className="section pale"><div className="container"><div className="section-head"><Eyebrow>WHO CAN APPLY</Eyebrow><h2>Community-rooted <em>initiatives.</em></h2><p>Suitable projects may come from Indigenous individuals, youth, entrepreneurs and smaller community organisations in Southern Alberta.</p></div><div className="visual-frame wide-photo"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1400&q=85" alt="Community connections"/></div><div className="section-head" style={{marginTop:55}}><Eyebrow>ELIGIBLE PROJECT AREAS</Eyebrow><h2>Where support can <em>help.</em></h2></div><div className="focus-grid">{['Cultural revitalisation','Language preservation','Youth mentorship','Wellness & healing','Land-based programmes','Community education','Intergenerational storytelling','Capacity building'].map((x,i)=><div className="mini-focus" key={x}><strong>{String(i+1).padStart(2,'0')}</strong>{x}</div>)}</div></div></section><section className="section"><div className="container"><div className="section-head"><Eyebrow>HOW TO APPLY</Eyebrow><h2>Prepare your <em>proposal.</em></h2><p>The application materials call for a project summary, community impact statement, simple budget, leadership background and optional supporting materials. Review focuses on community impact, Indigenous leadership, feasibility, cultural relevance and clarity of plan.</p></div><div className="button-row"><A external to="https://bit.ly/BFMicrobursary" className="button button-primary">View Application Form <ArrowUpRight size={18}/></A><A external to="https://bit.ly/IndigenousAdvisoryCommitteeMemberForm" className="button button-light outlined">Indigenous Advisory Committee <ArrowUpRight size={18}/></A></div><p className="note-text">The published 2026 submission deadline has passed; these links are supplied for reference until organisers confirm a new application window.</p><div className="detail-panel" style={{marginTop:50}}><div><Eyebrow>RELATED OPPORTUNITY</Eyebrow><h2>Check Out the Indigenous Pitch Competition.</h2><p>Learn about the supportive pitch gathering and its October 23 community event.</p></div><Btn to="indigenous-pitch-competition">Explore Pitch Competition</Btn></div></div></section><section className="section pale"><div className="container"><div className="section-head"><Eyebrow>OUR COLLABORATORS</Eyebrow><h2>Indigenous Peoples Celebration <em>Trusted Partners.</em></h2></div><div className="brand-logo-grid"><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Bipoc-logo.jpg" alt="BIPOC Foundation logo"/><figcaption>BIPOC Foundation</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/SACE-Aspire-logo.png" alt="SACE Aspire Foundation logo"/><figcaption>SACE Aspire Foundation</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Rinsa-1.png" alt="RINSA logo"/><figcaption>RINSA</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Blood-Tribe-logo.jpg" alt="Blood Tribe Economic Development logo"/><figcaption>Blood Tribe Economic Development</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Allied-Art-Council-.png" alt="Allied Arts Council logo"/><figcaption>Allied Arts Council</figcaption></figure></div></div></section><section className="section flyer-section"><div className="container"><div className="section-head centered"><Eyebrow>OFFICIAL PROGRAMME MATERIALS</Eyebrow><h2>Microbursary <em>flyers & resources.</em></h2><p>Explore the supplied campaign materials. Select a flyer to view the original image.</p></div><div className="flyer-grid"><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Microbursary-main-flier-.jpg" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Microbursary-main-flier-.jpg" alt="Microbursary main flyer" loading="lazy"/><div><strong>Microbursary main flyer</strong><span>View full flyer <ExternalLink size={15}/></span></div></a><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Microbursary-3.png" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Microbursary-3.png" alt="Microbursary programme flyer" loading="lazy"/><div><strong>Microbursary programme flyer</strong><span>View full flyer <ExternalLink size={15}/></span></div></a><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/2026-MICROBURSARY-infographics-1.jpg" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/2026-MICROBURSARY-infographics-1.jpg" alt="2026 Microbursary infographic" loading="lazy"/><div><strong>2026 Microbursary infographic</strong><span>View full flyer <ExternalLink size={15}/></span></div></a></div></div></section></>}
+function ScholarshipDetail(){return <><PageHero eyebrow="DIGITAL OPPORTUNITY & EDUCATION" title="Digital Media & Scholarships" description="Creative digital support and practical education assistance for emerging creators and students." image="https://images.unsplash.com/photo-1522202176988-66273c2fd55f?auto=format&fit=crop&w=1800&q=85"/><section className="section"><div className="container split"><div><Eyebrow>01 / DIGITAL MEDIA SUPPORT</Eyebrow><h2>Make your creativity <em>possible.</em></h2><p className="lead">Digital Media Support provides a pathway to request a free studio coupon code to access creative opportunities.</p><p>Interested applicants can email Wilson to request their code. Please include your name and a brief description of your intended studio use.</p><a className="button button-primary" href="mailto:wilson@team.bipocfoundation.org?subject=Free%20Studio%20Coupon%20Code%20Request">Request Studio Coupon <Mail size={17}/></a></div><div className="visual-frame"><img src="https://images.unsplash.com/photo-1492619375914-88005aa9e8fb?auto=format&fit=crop&w=1000&q=85" alt="Creative media equipment"/></div></div></section><section className="section pale"><div className="container split"><div className="visual-frame"><img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?auto=format&fit=crop&w=1100&q=85" alt="Students working together"/></div><div><Eyebrow>02 / SCHOLARSHIP & STUDENT SUPPORT</Eyebrow><h2>A little support. A bigger <em>possibility.</em></h2><p className="lead">Students may submit a written request explaining their educational need and how support would help.</p><p>Provide your name, email address, phone number and written request. Each submission is reviewed individually; funding is not guaranteed, and no more than $500 can be funded at a time.</p><a className="button button-primary" href="mailto:contact@bipocfoundation.org?subject=Student%20Support%20Request&body=Full%20name%3A%0AEmail%3A%0APhone%3A%0AWritten%20request%3A%0A">Email Student Support Request <Mail size={17}/></a><p className="note-text">Email links open your email application; they do not submit a website form.</p></div></div></section></>}
+function EventPage(){return <><PageHero eyebrow="OCTOBER 23, 2026 · LETHBRIDGE" title="Indigenous Pitch Competition & Community Gathering" description="Reclaiming the Narrative: Exploring Economic Sovereignty, Collaboration, and Systemic Change Needed to Support Indigenous Communities." image="https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1800&q=85"/><section className="section"><div className="container"><div className="event-highlights"><div><strong>October 23, 2026</strong><small>Date</small></div><div><strong>Tecconnect, Lethbridge</strong><small>Location · Alberta</small></div><div><strong>Hybrid gathering</strong><small>Participation format</small></div></div><div className="split event-copy"><div><Eyebrow>ABOUT THE EVENT</Eyebrow><h2>From recognition to <em>action.</em></h2><p className="lead">Hosted by BIPOC Foundation in collaboration with SACE Aspire Foundation, RINSA and Blood Tribe Economic Development, this Indigenous Peoples Celebration gathering centres Indigenous leadership, economic sovereignty and community-driven change.</p><p>The programme brings together an Indigenous Learning Series panel, the National Indigenous Heritage Pitch Competition and Indigenous Community Microbursary awards.</p><p>Designed to foster discussion, relationships and practical opportunities, the gathering highlights Indigenous entrepreneurs, youth and grassroots initiatives. The final start time and attendance instructions have not yet been supplied.</p><A to="indigenous-pitch-competition" className="text-link">Explore the Pitch Competition <ArrowUpRight size={18}/></A></div><div className="visual-frame"><img src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1100&q=85" alt="Community gathering"/></div></div></div></section><section className="section pale"><div className="container"><div className="section-head centered"><Eyebrow>EVENT PROGRAMME</Eyebrow><h2>Three connected <em>experiences.</em></h2></div><div className="three-grid">{[['Indigenous Learning Series panel','Dialogue on systemic change, collaboration, and stronger community partnerships.'],['National Indigenous Heritage Pitch Competition','A supportive platform for selected Indigenous entrepreneurs and community leaders.'],['Indigenous Community Microbursary awards','Recognising and resourcing Indigenous-led initiatives and community projects.']].map((x,i)=><div className="number-card" key={x[0]}><span>0{i+1}</span><h3>{x[0]}</h3><p>{x[1]}</p></div>)}</div><div className="closed-notice">Applications for the 2026 Pitch Competition closed September 20, 2026. Event attendance information will be confirmed by the organisers.</div></div></section><section className="section"><div className="container"><div className="section-head"><Eyebrow>EVENT COLLABORATORS</Eyebrow><h2>Working <em>together.</em></h2></div><div className="brand-logo-grid"><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Bipoc-logo.jpg" alt="BIPOC Foundation logo"/><figcaption>BIPOC Foundation</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/SACE-Aspire-logo.png" alt="SACE Aspire Foundation logo"/><figcaption>SACE Aspire Foundation</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Rinsa-1.png" alt="RINSA logo"/><figcaption>RINSA</figcaption></figure><figure><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/Blood-Tribe-logo.jpg" alt="Blood Tribe Economic Development logo"/><figcaption>Blood Tribe Economic Development</figcaption></figure></div></div></section><section className="section flyer-section"><div className="container"><div className="section-head centered"><Eyebrow>OFFICIAL PROGRAMME MATERIALS</Eyebrow><h2>Pitch Competition <em>flyers & resources.</em></h2><p>Explore the supplied campaign materials. Select a flyer to view the original image.</p></div><div className="flyer-grid"><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-Main-Flyer-1.jpeg" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-Main-Flyer-1.jpeg" alt="IPC 2026 main flyer" loading="lazy"/><div><strong>IPC 2026 main flyer</strong><span>View full flyer <ExternalLink size={15}/></span></div></a><a href="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-2.png" target="_blank" rel="noopener noreferrer" className="flyer-item"><img src="https://saceaspirefoundation.org/redesign/wp-content/uploads/2026/10/IPC-2.png" alt="IPC promotional flyer" loading="lazy"/><div><strong>IPC promotional flyer</strong><span>View full flyer <ExternalLink size={15}/></span></div></a></div></div></section></>}
+function ProgramDetail({ p }: { p: (typeof programs)[number] }) {
+  if (p.slug === 'secure-the-bag') return <GrantDetail />;
+  if (p.slug === 'indigenous-pitch-competition') return <PitchDetail />;
+  if (p.slug === 'indigenous-microbursary') return <MicroDetail />;
+  if (p.slug === 'digital-media-scholarship') return <ScholarshipDetail />;
+  return (
+    <>
+      <PageHero
+        eyebrow={p.eyebrow}
+        title={p.title}
+        description={p.intro}
+        image={p.image}
+      />
+      <section className="section">
+        <div className="container split detail-intro">
+          <div>
+            <Eyebrow>ABOUT THE PROGRAM</Eyebrow>
+            <h2>{p.tagline}</h2>
+            <p className="lead">{p.body}</p>
+            <div className="button-row">
+              <Btn to={p.url} external={p.url.startsWith('https')}>
+                {p.cta}
+              </Btn>
+            </div>
+          </div>
+          <div className="visual-frame tall">
+            <img src={p.image} alt={p.title} />
+          </div>
+        </div>
+      </section>
+      <section className="section pale">
+        <div className="container">
+          <div className="section-head centered">
+            <Eyebrow>PROGRAM FOCUS</Eyebrow>
+            <h2>
+              What this programme <em>supports</em>
+            </h2>
+          </div>
+          <div className="three-grid">
+            {p.pillars.map((x, i) => (
+              <div className="number-card" key={x}>
+                <span>0{i + 1}</span>
+                <h3>{x}</h3>
+                <p>
+                  Strengthening access to practical opportunities and supporting
+                  participants as they move toward their goals.
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container detail-panel">
+          <div>
+            <Eyebrow>TAKE THE NEXT STEP</Eyebrow>
+            <h2>Ready to explore this opportunity?</h2>
+            <p>
+              Use the official application link below to find current programme
+              information and application requirements. Availability,
+              eligibility, and deadlines are determined by the application
+              organisers.
+            </p>
+          </div>
+          <div className="detail-actions">
+            <Btn to={p.url} external={p.url.startsWith('https')}>
+              {p.cta}
+            </Btn>
+            {p.secondURL && (
+              <Btn to={p.secondURL} external>
+                {p.secondCTA}
+              </Btn>
+            )}
+          </div>
+        </div>
+      </section>
+      <section className="section pale">
+        <div className="container">
+          <div className="section-head">
+            <Eyebrow>DISCOVER MORE</Eyebrow>
+            <h2>
+              Explore other <em>programs</em>
+            </h2>
+          </div>
+          <div className="related-grid">
+            {programs
+              .filter(q => q.slug !== p.slug)
+              .map(q => (
+                <A to={q.slug} className="related-card" key={q.slug}>
+                  <img src={q.image} alt="" />
+                  <div>
+                    <small>{q.eyebrow}</small>
+                    <h3>{q.title}</h3>
+                    <ArrowUpRight size={19} />
+                  </div>
+                </A>
+              ))}
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+const partners = [
+  {
+    name: 'BIPOC Digital Media and Creative Innovation Hub',
+    image:
+      'https://images.unsplash.com/photo-1558655146-9f40138edfeb?auto=format&fit=crop&w=1100&q=85',
+    description:
+      'A community-first creative studio in Lethbridge, powered by Arts Marvels and supported by BIPOC Foundation.',
+    url: 'https://share.google/66L2L1N88LlS7N3co',
+    placeholder: true,
+  },
+  {
+    name: 'AIRI Foundation',
+    image:
+      'https://airifoundation.org/_next/image?url=%2Fimages%2Flogo.png&w=256&q=75',
+    description:
+      'AIRI Foundation is a non-profit organization that advances AI literacy and workflow automation across Canada. By combining research, consulting, and custom software development with hands-on automation services and training, we empower individuals and businesses to successfully deploy ethical AI solutions in their daily operations.',
+    url: 'https://share.google/DCKPRudHGsLVoLkPC',
+  },
+  {
+    name: 'RINSA — Regional Innovation Network of Southern Alberta',
+    image: 'https://rinsa.ca/wp-content/uploads/2020/09/Rinsa.png',
+    description:
+      'The Regional Innovation Network of Southern Alberta (RINSA) was formed in 2011 as a collaborative partnership between Alberta Innovates with Economic Development Lethbridge/Tecconnect, Lethbridge Polytechnic, and the University of Lethbridge.',
+    url: 'https://rinsa.ca/',
+  },
+];
+function Partners() {
+  return (
+    <>
+      <PageHero
+        eyebrow="COLLABORATION & COMMUNITY"
+        title="Our Partners"
+        description="Progress is built together. Explore organisations contributing to knowledge, creativity, innovation, and community opportunity."
+      />
+      <section className="section partners-section">
+        <div className="container">
+          <div className="section-head">
+            <Eyebrow>OUR NETWORK</Eyebrow>
+            <h2>
+              Stronger <em>together.</em>
+            </h2>
+            <p>
+              Discover the organisations in our partner network and the work
+              they do to support meaningful change.
+            </p>
+          </div>
+          <div className="partner-list">
+            {partners.map((p, i) => (
+              <article className="partner-row" key={p.name}>
+                <div
+                  className={
+                    'partner-art ' + (p.placeholder ? 'partner-photo' : '')
+                  }
+                >
+                  <img
+                    src={p.image}
+                    alt={
+                      p.placeholder
+                        ? 'Creative studio workspace'
+                        : p.name + ' logo'
+                    }
+                    loading="lazy"
+                  />
+                </div>
+                <div className="partner-copy">
+                  <div className="partner-count">
+                    0{i + 1} / PARTNER SPOTLIGHT
+                  </div>
+                  <h3>{p.name}</h3>
+                  <p>{p.description}</p>
+                  <A external to={p.url} className="text-link">
+                    Visit Partner <ArrowUpRight size={18} />
+                  </A>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+      <SupportStrip />
+    </>
+  );
+}
+function Support() {
+  return (
+    <>
+      <PageHero
+        eyebrow="WAYS TO SUPPORT"
+        title="Your Support Is Invaluable."
+        description="Whether you donate, volunteer, or collaborate, your contribution helps create possibilities for communities across Canada."
+        image="https://images.unsplash.com/photo-1531206715517-5c0ba140b2b8?auto=format&fit=crop&w=1800&q=85"
+      />
+      <section className="section pale">
+        <div className="container">
+          <div className="section-head centered">
+            <Eyebrow>TAKE ACTION</Eyebrow>
+            <h2>
+              Every contribution <em>matters.</em>
+            </h2>
+            <p>Find the opportunity to contribute that is right for you.</p>
+          </div>
+          <div className="support-card-grid">
+            <div className="support-card featured">
+              <div className="icon-round">
+                <Heart />
+              </div>
+              <h3>Donate</h3>
+              <p>
+                Every dollar counts. Contribute now to help us reach our goal
+                and build stronger communities across Canada.
+              </p>
+              <Btn to={donate} external>
+                Contribute Now
+              </Btn>
+            </div>
+            <div className="support-card">
+              <div className="icon-round">
+                <Users />
+              </div>
+              <h3>Volunteer</h3>
+              <p>
+                Your time and skills can make an impact too. Join our national
+                team of change-makers and community leaders.
+              </p>
+              <Btn to={volunteer} external>
+                Join Us
+              </Btn>
+            </div>
+            <div className="support-card">
+              <div className="icon-round">
+                <HandHeart />
+              </div>
+              <h3>Partner</h3>
+              <p>
+                Work alongside the foundation to create opportunities and
+                strengthen community-led initiatives.
+              </p>
+              <Btn to="contact">Become a Partner</Btn>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section className="section">
+        <div className="container split">
+          <div className="visual-frame">
+            <img
+              src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?auto=format&fit=crop&w=1100&q=85"
+              alt="Group of people spending time together"
+            />
+          </div>
+          <div>
+            <Eyebrow>MAKE A DIFFERENCE</Eyebrow>
+            <h2>
+              Change starts with <em>people like you.</em>
+            </h2>
+            <p className="lead">
+              Support can take many forms: resources, ideas, skills, time, or
+              meaningful partnerships.
+            </p>
+            <p>
+              Every step helps create a more connected and inclusive future.
+            </p>
+            <Btn to="contact">Talk to Our Team</Btn>
+          </div>
+        </div>
+      </section>
+    </>
+  );
+}
+function Contact() {
+  return (
+    <>
+      <PageHero
+        eyebrow="GET INVOLVED"
+        title="Let's Make an Impact Together."
+        description="Interested in our work, programmes, volunteering, or partnerships? We would love to hear from you."
+        image="https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1800&q=85"
+      />
+      <section className="section">
+        <div className="container split contact-split">
+          <div>
+            <Eyebrow>CONNECT WITH SACE</Eyebrow>
+            <h2>
+              There's a place for <em>everyone.</em>
+            </h2>
+            <p className="lead">
+              Discover how you can support our mission or connect with the
+              foundation about an opportunity.
+            </p>
+            <div className="contact-options">
+              <A to={volunteer} external>
+                <Users />
+                <span>
+                  <strong>Volunteer with us</strong>
+                  <small>Share your time and skills</small>
+                </span>
+                <ArrowUpRight />
+              </A>
+              <A to={donate} external>
+                <Heart />
+                <span>
+                  <strong>Make a contribution</strong>
+                  <small>Support community-focused initiatives</small>
+                </span>
+                <ArrowUpRight />
+              </A>
+              <A to="partners">
+                <HandHeart />
+                <span>
+                  <strong>Explore partnerships</strong>
+                  <small>Build something meaningful together</small>
+                </span>
+                <ArrowUpRight />
+              </A>
+            </div>
+          </div>
+          <div className="contact-aside">
+            <div className="icon-round">
+              <Mail />
+            </div>
+            <h3>Start a conversation</h3>
+            <p>
+              For general enquiries or partnership opportunities, connect
+              through the foundation's official website.
+            </p>
+            <a
+              className="button button-primary"
+              href="https://saceaspirefoundation.org/redesign/contact"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Official Contact Page <ArrowUpRight size={17} />
+            </a>
+            <div className="aside-note">
+              <CheckCircle2 size={17} /> Programme applications are available on
+              their respective pages.
+            </div>
+          </div>
+        </div>
+      </section>
+      <ImpactPrograms />
+    </>
+  );
+}
+function App() {
+  const [path, setPath] = useState(location.hash.replace(/^#\/?/, '') || '');
+  useEffect(() => {
+    const onChange = () => {
+      setPath(location.hash.replace(/^#\/?/, '') || '');
+      window.scrollTo(0, 0);
+    };
+    window.addEventListener('hashchange', onChange);
+    return () => window.removeEventListener('hashchange', onChange);
+  }, []);
+  const p = programs.find(v => v.slug === path);
+  return (
+    <>
+      <Header />
+      <main>
+        {p ? (
+          <ProgramDetail p={p} />
+        ) : path === 'about' ? (
+          <About />
+        ) : path === 'vision' ? (
+          <Vision />
+        ) : path === 'programs' ? (
+          <Programs />
+        ) : path === 'support' ? (
+          <Support />
+        ) : path === 'events' ? (
+          <EventPage />
+        ) : path === 'partners' ? (
+          <Partners />
+        ) : path === 'contact' ? (
+          <Contact />
+        ) : (
+          <Home />
+        )}
+      </main>
+      <Footer />
+    </>
+  );
+}
+export default App;
