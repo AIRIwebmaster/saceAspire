@@ -1160,11 +1160,11 @@ function Contact() {
             </p>
             <a
               className="button button-primary"
-              href="https://saceaspirefoundation.org/contact/"
+              href="mailto:info@saceaspirefoundation.org"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Official Contact Page <ArrowUpRight size={17} />
+              Send us message <ArrowUpRight size={17} />
             </a>
             <div className="aside-note">
               <CheckCircle2 size={17} /> Programme applications are available on
