@@ -401,7 +401,7 @@ function MissionVision() {
     </section>
   );
 }
-function ImpactPrograms() {
+function ImpactPrograms({ showExploreButton = true }: { showExploreButton?: boolean }) {
   return (
     <section className="section pale">
       <div className="container">
@@ -417,9 +417,9 @@ function ImpactPrograms() {
           </p>
         </div>
         <ProgramCards />
-        <div className="center-action">
+        {showExploreButton && <div className="center-action">
           <Btn to="programs">Explore All Programs</Btn>
-        </div>
+        </div>}
       </div>
     </section>
   );
@@ -752,7 +752,7 @@ function Programs() {
         description="Explore our initiatives supporting financial empowerment, Indigenous education and entrepreneurship, and next-generation digital skills."
         image="https://www.bipocfoundation.org/wp-content/uploads/2025/06/20240705_135255-scaled.jpg"
       />
-      <ImpactPrograms />
+      <ImpactPrograms showExploreButton={false} />
       <section className="section">
         <div className="container split">
           <div>
