@@ -894,7 +894,7 @@ function ProgramDetail({ p }: { p: (typeof programs)[number] }) {
 }
 const partners = [
   {
-    name: 'D Amazin Lion',
+    name: 'D Amazin Lions',
     image: 'https://www.bipocfoundation.org/wp-content/uploads/2025/06/damazinglion-logo-redesign-07.png',
     description: 'Community partner featured in the BIPOC Foundation partner materials. Further organisation details are pending confirmation.',
     url: '',
