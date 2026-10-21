@@ -1160,7 +1160,7 @@ function Contact() {
             </p>
             <a
               className="button button-primary"
-              href="https://saceaspirefoundation.org/redesign/contact"
+              href="https://saceaspirefoundation.org/contact/"
               target="_blank"
               rel="noopener noreferrer"
             >
