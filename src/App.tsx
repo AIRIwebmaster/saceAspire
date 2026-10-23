@@ -964,6 +964,7 @@ function Partners() {
         eyebrow="COLLABORATION & COMMUNITY"
         title="Our Partners"
         description="Progress is built together. Explore organisations contributing to knowledge, creativity, innovation, and community opportunity."
+        image="https://www.bipocfoundation.org/wp-content/uploads/2025/07/DSC03452-scaled.jpg"
       />
       <section className="section partners-section">
         <div className="container">
