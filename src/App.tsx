@@ -1024,7 +1024,7 @@ function Support() {
     <>
       <PageHero
         eyebrow="WAYS TO SUPPORT"
-        title="Your Support Means a Lot to Us."
+        title="Your support helps build a community where everyone feels valued and belongs."
         description="Your support helps build a community where everyone feels valued and belongs."
         image="https://www.bipocfoundation.org/wp-content/uploads/2026/09/WhatsApp-Image-2026-09-03-at-1.58.37-PM.jpeg"
       />
