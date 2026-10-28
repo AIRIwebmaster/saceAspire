@@ -904,7 +904,7 @@ const partners = [
     name: 'Arts Marvels',
     image: 'https://www.bipocfoundation.org/wp-content/uploads/2026/10/Arts-Marvel-logo-1.jpg',
     description: 'Creative programming and production expertise supporting community artists and emerging creators through the BIPOC Digital Media & Creative Innovation Hub.',
-    url: 'https://bipoccreativeinnovationstudio.com/programming',
+    url: 'https://www.instagram.com/artsmarvels?psln=eGg4NWV3OGZ0bzFq',
   },
   {
     name: 'HR Advantage',
@@ -1023,7 +1023,7 @@ function Support() {
       <PageHero
         eyebrow="WAYS TO SUPPORT"
         title="Your Support Is Invaluable."
-        description="Whether you donate, volunteer, or collaborate, your contribution helps create possibilities for communities across Canada."
+        description="Your support helps build a community where everyone feels valued and belongs."
         image="https://www.bipocfoundation.org/wp-content/uploads/2026/09/WhatsApp-Image-2026-09-03-at-1.58.37-PM.jpeg"
       />
       <section className="section pale">
